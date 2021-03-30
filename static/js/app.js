@@ -18,18 +18,22 @@ function updatePage() {
   });
 
 }
+///Can't run forEach below:
+// function updatePage() {
+//   // Use d3 to select the dropdown menu
+//   var dropdownMenu = d3.selectAll("#selDataset");
+//   // Use d3 to read in samples.json
+//   d3.json('samples.json').then((samples)=> {
+//   	//use forEach grab the names key 
+//   	samples['samples'][0]['id'].forEach((id)=> {
+//   		//append (the name text to value name in the dropdown menu)
+//   		dropdownMenu.append('option').text(id).property('value', id);	
+//   	});
+//   });
+
+// }
 
 updatePage();
-// function dropDown() {
-// 	var dropdown = d3.selectAll("#selDataset").node();
-// 	// d3.json("samples.json").then((samples)=> {
-
-// 	// Use D3 to select the dropdown menu
-// 	var namesDropDown = dropdown.names;
-// 	// Assign the dropdown menu item ID to a variable
-// 	var selectOption=dropdown.value;
-// 	};
-// 	console.log(selectOption);
 
 
 // use d3 to read in samples.json
@@ -37,6 +41,22 @@ updatePage();
 	console.log(samples)
 });
 
-// var data = [trace1];
 
+
+function buildPlot(otu_id) {
+ d3.json("samples.json").then((data)=> {
+ 	//Grab values from json object to build the plot
+
+
+
+ 	var samples =data['samples'].filter(object=>object.id)[0];
+ 	var otu_top_ten=(samples.otu_ids.slice(0,10)).reverse();
+
+	console.log(samples);
+	console.log(otu_top);
+
+});
+
+// var data = [trace1];
+}
 
