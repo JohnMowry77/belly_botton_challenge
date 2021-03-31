@@ -15,7 +15,7 @@ function updatePage() {
   //use forEach grab the names key 
   data['names'].forEach((id_num)=> {
   //append (the name text to value name in the dropdown menu)
-    dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
+  dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
   
   var id_num=dropdownMenu.property('value'); 
   console.log(id_num); //gives you the first id value (940)
@@ -23,15 +23,25 @@ function updatePage() {
   var metadata=data['metadata']; 
   // console.log(metadata) //metadata is a list of dictionaries
   var samples= data['samples'];
-  console.log(samples) //samples is a list of dictionaries
+  console.log(samples); //samples is a list of dictionaries
   //use filter to grab the sample.id equal to the id.num and convert to string
   var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
   console.log(cur_sample);
-  var otu
+  var otu_ids=cur_sample[0]['otu_ids'];
+  console.log(otu_ids);
+
   });
   });
 }
 
+var trace= {
+  'type' : 'bar',
+  'y': otu_ids.slice(0,10).reverse(),
+  'x': cur_sample.slice(0,10).reverse(),
+  orientation: 'h'
+};
+
+Plotly.newPlot('bar', [trace]);
 updatePage();
 
 ///////
