@@ -94,10 +94,16 @@ var trace_bubble= {
   'x': samples,
   'mode': 'markers',
   'text': hover_text,
-  marker: {
-    'size': samples,
-    'color': otu_ids
+    marker: {
+    // color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+    // // opacity: [1, 0.8, 0.6, 0.4],
+    size: samples,
+    color: otu_ids
   }
+  // marker: {
+  //   'size': samples,
+  //   'color': otu_ids
+  // }
 };
 var bubble_layout= {
   xaxis: {title:{text: 'OTU ID'}}
