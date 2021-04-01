@@ -4,7 +4,7 @@
 // });
 
 // Use D3 to create an event handler
-d3.selectAll("body").on("change", updatePage);
+// d3.selectAll("body").on("change", updatePage);
 
 //this will display the id and the value of the drop down menu. 
 function updatePage() {
@@ -16,33 +16,50 @@ function updatePage() {
   data['names'].forEach((id_num)=> {
   //append (the name text to value name in the dropdown menu)
   dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
-  
-  var id_num=dropdownMenu.property('value'); 
-  console.log(id_num); //gives you the first id value (940)
+  });
+
+  // var id_num=dropdownMenu.property('value'); 
+  // console.log(id_num); //gives you the first id value (940)
   //grab the remaining keys inside of dict
-  var metadata=data['metadata']; 
-  // console.log(metadata) //metadata is a list of dictionaries
-  var samples= data['samples'];
-  console.log(samples); //samples is a list of dictionaries
+  // var metadata=data['metadata']; 
+  // console.log(metadata) //metadata an array of objects
+  // var samples= data['samples'];
+  // console.log(samples); //samples an array of objects
+  var hover_text=data.samples[0]['otu_labels']
+  console.log(hover_text);
   //use filter to grab the sample.id equal to the id.num and convert to string
-  var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
-  console.log(cur_sample);
-  var otu_ids=cur_sample[0]['otu_ids'];
+  // var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
+  // console.log(cur_sample);
+  var otu_ids=data.samples[0]['otu_ids']
   console.log(otu_ids);
+  var samples = data.samples[0]['sample_values']
+  console.log(samples)
 
-  });
-  });
-}
-
+  
 var trace= {
-  'type' : 'bar',
-  'y': otu_ids.slice(0,10).reverse(),
-  'x': cur_sample.slice(0,10).reverse(),
+  type: 'bar',
+  y: otu_ids.slice(0,10),
+  x: samples.slice(0,10),
+  text: hover_text.slice(0,10),
   orientation: 'h'
 };
+console.log(otu_ids.slice(0,10))
+console.log(samples.slice(0,10))
+console.log(hover_text.slice(0,10))
+
 
 Plotly.newPlot('bar', [trace]);
+
+  });
+}
 updatePage();
+
+
+function optionChanged(id) {
+  console.log(id);
+
+}
+
 
 ///////
 // // function init() {
