@@ -83,7 +83,7 @@ var bar_layout= {
 //   'width': 30
 };
 
-//create plot using Plotly: use 'bar' as type & trace as data / no layout
+//create plot using Plotly: use 'bar' as type & trace as data, plus a layout
 Plotly.newPlot('bar', [trace_bar], bar_layout);
 // Plotly.newPlot('bar', [trace_bar], bar_layout);
 
@@ -115,12 +115,16 @@ Plotly.newPlot('bubble', [trace_bubble], bubble_layout);
 // }));
 // });
 // };
-//cur_metadata is empty right now. COME BACK TO ME
-var cur_metadata=metadata.filter(x=>x.id==sample_id);
-console.log(cur_metadata);
-Object.entries(cur_metadata[0]).forEach(([key,value])=>{
-  row=table_body.append('tr');
-  row.append('td').text(key.concat(":",value));
+
+//Create Data Table
+//Get a refernce to the table body
+var tbody=d3.select("tbody");
+// var cur_metadata=metadata.filter(x=>x.id==sample_id);
+// console.log(cur_metadata);
+Object.entries(metadata[0]).forEach(([key,value])=>{
+  var row=tbody.append("tr");
+  row.text(`${key}: ${value}`);
+  // row.append('td').text(key.concat(":",value));
 });
 });
 };
