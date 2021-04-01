@@ -68,19 +68,19 @@ var trace_bar= {
   'text': hover_text.slice(0,10).reverse(),
   'orientation': 'h'
 };
-console.log(otu_ids.slice(0,10).reverse());
-// console.log(otu_ids.slice(0,10));
-console.log(samples.slice(0,10).reverse());
-console.log(hover_text.slice(0,10).reverse());
+// console.log(otu_ids.slice(0,10).reverse());
+// // console.log(otu_ids.slice(0,10));
+// console.log(samples.slice(0,10).reverse());
+// console.log(hover_text.slice(0,10).reverse());
 
-// var bar_layout= {
-//   'title': 'Top 10 Clusters Found',
+var bar_layout= {
+  'title': 'Top 10 Clusters Found',
 //   'height': 30,
 //   'width': 30
-// }
+}
 
 //create plot using Plotly: use 'bar' as type & trace as data / no layout
-Plotly.newPlot('bar', [trace_bar]);
+Plotly.newPlot('bar', [trace_bar], bar_layout);
 // Plotly.newPlot('bar', [trace_bar], bar_layout);
 
 // var sample_values= 
@@ -95,8 +95,22 @@ var trace_bubble= {
     'color': otu_ids
   }
 };
+var bubble_layout= {
+  xaxis: {title:{text: 'OTU ID'}}
+};
 
-Plotly.newPlot('bubble', [trace_bubble])
+Plotly.newPlot('bubble', [trace_bubble], bubble_layout)
+
+// var table_body=d3.select("tbody");
+// // d3.json('samples.json').then((data)=>{
+// //Populate the demographic table
+// // var metadata=data.samples.filter(x=>x.id==sample_id);
+// Object.entries(data.metadata[0].forEach(([key,value])=>{
+//   row=table_body.append('tr');
+//   row.append('td').text(key.concat(":",value));
+// }));
+// });
+// };
 
 
 });
@@ -106,16 +120,25 @@ buildPlot(940);
 
 function optionChanged(id) {
   console.log(id);
-
 }
 
-
-// updatePage();
-
-
+function init(sample_id) {
+var table_body=d3.select("tbody");
+d3.json('samples.json').then((data)=>{
+//Populate the demographic table
+var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+console.log(demo);
+// var metadata=data.samples.filter(x=>x.id==sample_id);
+Object.entries(result_filter[0].forEach(([key,value])=>{
+  row=table_body.append('tr');
+  row.append('td').text(key.concat(":",value));
+}));
+});
+};
+init();
 
 ///////
-// // function init() {
+// function init() {
 //  d3.json("samples.json").then((data)=> {
 //  	//Grab values from json object to build the plot
 //   var dropdown=d3.select('#selDataset');
