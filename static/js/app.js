@@ -40,21 +40,21 @@ function updatePage() {
 
   //data is an array of objects. use samples key, index 0, grab otu_labels key
   var otu_ids=data.samples[0]['otu_ids']
-  console.log(otu_ids);
+  // console.log(otu_ids);
   //use samples key, index 0, grab samples_values key
   var samples = data.samples[0]['sample_values']
-  console.log(samples)
+  // console.log(samples)
   //use samples key, index 0, grab otu_labels
   var hover_text=data.samples[0]['otu_labels']
-  console.log(hover_text);
+  // console.log(hover_text);
   
 //create trace & use .slice & .reverse to get the top 10 results
 var trace_bar= {
-  type: 'bar',
-  y: otu_ids.slice(0,10).reverse(),
-  x: samples.slice(0,10).reverse(),
-  text: hover_text.slice(0,10).reverse(),
-  orientation: 'h'
+  'type': 'bar',
+  'y': otu_ids.slice(0,10).reverse(),
+  'x': samples.slice(0,10).reverse(),
+  'text': hover_text.slice(0,10).reverse(),
+  'orientation': 'h'
 };
 console.log(otu_ids.slice(0,10).reverse());
 // console.log(otu_ids.slice(0,10));
@@ -64,7 +64,17 @@ console.log(hover_text.slice(0,10).reverse());
 //create plot using Plotly: use 'bar' as type & trace as data / no layout
 Plotly.newPlot('bar', [trace_bar]);
 
-// var trace_bubble=
+// var sample_values= 
+var trace_bubble= {
+  'type': 'scatter',
+  'x': otu_ids,
+  'y': samples,
+  'text': hover_text,
+  marker: {
+    'size': samples,
+    'color': otu_ids
+  }
+};
 
 
 
