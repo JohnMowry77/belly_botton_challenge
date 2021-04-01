@@ -55,12 +55,12 @@ function buildPlot(sample_id){
   // console.log(hover_text);
   
   // convert otu_ids to string
-  y_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
+  otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
 
 //create trace & use .slice & .reverse to get the top 10 results
 var trace_bar= {
   'type': 'bar',
-  'y': y_label,
+  'y': otu_label,
   'x': samples.slice(0,10).reverse(),
   'text': hover_text.slice(0,10).reverse(),
   'orientation': 'h'
@@ -147,7 +147,12 @@ function updatePlotly() {
   //use samples key, index 0, grab otu_labels
   var hover_text=data.samples[0]['otu_labels']
   // console.log(hover_text);
-    
+
+  // convert otu_ids to string
+  otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
+
+    Plotly.restyle('bar', 'y',[otu_label].slice(0,10));
+    Plotly.restyle('bar', 'x',[samples].slice(0,10));
   });
 };
 
