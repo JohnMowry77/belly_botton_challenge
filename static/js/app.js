@@ -8,13 +8,6 @@
 
 
 
-function optionChanged(id) {
-  console.log(id);
-
-}
-
-
-
 //this will display the id and the value of the drop down menu. 
 function updatePage() {
   // Use d3 to read in samples.json
@@ -27,6 +20,11 @@ function updatePage() {
   dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
   });
 
+});
+}
+
+updatePage();
+
   // var id_num=dropdownMenu.property('value'); 
   // console.log(id_num); //gives you the first id value (940)
   //grab the remaining keys inside of dict
@@ -38,7 +36,18 @@ function updatePage() {
   // var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
   // console.log(cur_sample);
 
+function buildPlot(sample_id){
+  d3.json('samples.json').then((data)=>{
+  //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
+  //result_filter will now be a
+  var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+  console.log(sample_id)
   //data is an array of objects. use samples key, index 0, grab otu_labels key
+
+  //use result_filter for bar chart:
+  // var otu_ids_bar=data.samples['otu_ids']
+
+  //use data.samples for bubble chart
   var otu_ids=data.samples[0]['otu_ids']
   // console.log(otu_ids);
   //use samples key, index 0, grab samples_values key
@@ -48,10 +57,13 @@ function updatePage() {
   var hover_text=data.samples[0]['otu_labels']
   // console.log(hover_text);
   
+  // convert otu_ids to string
+  y_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
+
 //create trace & use .slice & .reverse to get the top 10 results
 var trace_bar= {
   'type': 'bar',
-  'y': otu_ids.slice(0,10).reverse(),
+  'y': y_label,
   'x': samples.slice(0,10).reverse(),
   'text': hover_text.slice(0,10).reverse(),
   'orientation': 'h'
@@ -61,14 +73,22 @@ console.log(otu_ids.slice(0,10).reverse());
 console.log(samples.slice(0,10).reverse());
 console.log(hover_text.slice(0,10).reverse());
 
+// var bar_layout= {
+//   'title': 'Top 10 Clusters Found',
+//   'height': 30,
+//   'width': 30
+// }
+
 //create plot using Plotly: use 'bar' as type & trace as data / no layout
 Plotly.newPlot('bar', [trace_bar]);
+// Plotly.newPlot('bar', [trace_bar], bar_layout);
 
 // var sample_values= 
 var trace_bubble= {
   'type': 'scatter',
-  'x': otu_ids,
-  'y': samples,
+  'y': otu_ids,
+  'x': samples,
+  'mode': 'markers',
   'text': hover_text,
   marker: {
     'size': samples,
@@ -79,18 +99,18 @@ var trace_bubble= {
 Plotly.newPlot('bubble', [trace_bubble])
 
 
-  });
+});
+}
+
+buildPlot(940);
+
+function optionChanged(id) {
+  console.log(id);
+
 }
 
 
-
-
-
-
-
-
-updatePage();
-
+// updatePage();
 
 
 
