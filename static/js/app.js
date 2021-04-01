@@ -76,7 +76,7 @@ var trace_bubble= {
   }
 };
 
-
+Plotly.newPlot('bubble', [trace_bubble])
 
 
   });
