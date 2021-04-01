@@ -46,6 +46,10 @@ function buildPlot(sample_id){
 
   //use result_filter for bar chart:
   // var otu_ids_bar=data.samples['otu_ids']
+  var metadata=data['metadata']; 
+  console.log(metadata) //metadata an array of objects
+  // var samples= data['samples'];
+  // console.log(samples); //samples an array of objects
 
   //use data.samples for bubble chart
   var otu_ids=data.samples[0]['otu_ids']
@@ -77,7 +81,7 @@ var bar_layout= {
   'title': 'Top 10 Clusters Found',
 //   'height': 30,
 //   'width': 30
-}
+};
 
 //create plot using Plotly: use 'bar' as type & trace as data / no layout
 Plotly.newPlot('bar', [trace_bar], bar_layout);
@@ -99,7 +103,7 @@ var bubble_layout= {
   xaxis: {title:{text: 'OTU ID'}}
 };
 
-Plotly.newPlot('bubble', [trace_bubble], bubble_layout)
+Plotly.newPlot('bubble', [trace_bubble], bubble_layout);
 
 // var table_body=d3.select("tbody");
 // // d3.json('samples.json').then((data)=>{
@@ -111,31 +115,36 @@ Plotly.newPlot('bubble', [trace_bubble], bubble_layout)
 // }));
 // });
 // };
-
-
+//cur_metadata is empty right now. COME BACK TO ME
+var cur_metadata=metadata.filter(x=>x.id==sample_id);
+console.log(cur_metadata);
+Object.entries(cur_metadata[0]).forEach(([key,value])=>{
+  row=table_body.append('tr');
+  row.append('td').text(key.concat(":",value));
 });
-}
+});
+};
 
-buildPlot(940);
+buildPlot();
 
 function optionChanged(id) {
   console.log(id);
 }
 
-function init(sample_id) {
-var table_body=d3.select("tbody");
-d3.json('samples.json').then((data)=>{
-//Populate the demographic table
-var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-console.log(demo);
-// var metadata=data.samples.filter(x=>x.id==sample_id);
-Object.entries(result_filter[0].forEach(([key,value])=>{
-  row=table_body.append('tr');
-  row.append('td').text(key.concat(":",value));
-}));
-});
-};
-init();
+// function init(sample_id) {
+// var table_body=d3.select("tbody");
+// d3.json('samples.json').then((data)=>{
+// //Populate the demographic table
+// var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+// console.log(demo);
+// // var metadata=data.samples.filter(x=>x.id==sample_id);
+// Object.entries(result_filter[0].forEach(([key,value])=>{
+//   row=table_body.append('tr');
+//   row.append('td').text(key.concat(":",value));
+// }));
+// });
+// };
+// init();
 
 ///////
 // function init() {
