@@ -6,8 +6,6 @@
 // Use D3 to create an event handler
 // d3.selectAll("body").on("change", updatePage);
 
-
-
 //this will display the id and the value of the drop down menu. 
 function updatePage() {
   // Use d3 to read in samples.json
@@ -19,7 +17,6 @@ function updatePage() {
   //append (the name text to value name in the dropdown menu)
   dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
   });
-
 });
 }
 
@@ -28,10 +25,6 @@ updatePage();
   // var id_num=dropdownMenu.property('value'); 
   // console.log(id_num); //gives you the first id value (940)
   //grab the remaining keys inside of dict
-  // var metadata=data['metadata']; 
-  // console.log(metadata) //metadata an array of objects
-  // var samples= data['samples'];
-  // console.log(samples); //samples an array of objects
   //use filter to grab the sample.id equal to the id.num and convert to string
   // var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
   // console.log(cur_sample);
@@ -39,15 +32,15 @@ updatePage();
 function buildPlot(sample_id){
   d3.json('samples.json').then((data)=>{
   //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
-  //result_filter will now be a
+  //x=>x.id provides place holder to compare to sample_id
   var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-  console.log(sample_id)
+  // console.log(sample_id)
   //data is an array of objects. use samples key, index 0, grab otu_labels key
 
   //use result_filter for bar chart:
   // var otu_ids_bar=data.samples['otu_ids']
   var metadata=data['metadata']; 
-  console.log(metadata) //metadata an array of objects
+  // console.log(metadata) //metadata an array of objects
   // var samples= data['samples'];
   // console.log(samples); //samples an array of objects
 
@@ -92,18 +85,14 @@ var trace_bubble= {
   'type': 'scatter',
   'y': otu_ids,
   'x': samples,
-  'mode': 'markers',
-  'text': hover_text,
-    marker: {
+  mode: 'markers',
+  text: hover_text,
+  marker: {
     // color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
     // // opacity: [1, 0.8, 0.6, 0.4],
     size: samples,
     color: otu_ids
   }
-  // marker: {
-  //   'size': samples,
-  //   'color': otu_ids
-  // }
 };
 var bubble_layout= {
   xaxis: {title:{text: 'OTU ID'}}
@@ -135,11 +124,35 @@ Object.entries(metadata[0]).forEach(([key,value])=>{
 });
 };
 
-buildPlot();
+// buildPlot();
 
 function optionChanged(id) {
   console.log(id);
 }
+
+function updatePlotly() {
+  var tbody=d3.select("tbody");
+  tbody.text("");
+  d3.json('samples.json').then((data)=> {
+    var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+    // console.log(result_filter);
+    var metadata=data['metadata']; 
+    // console.log(metadata);
+  //use data.samples for bubble chart
+  var otu_ids=data.samples[0]['otu_ids']
+  // console.log(otu_ids);
+  //use samples key, index 0, grab samples_values key
+  var samples = data.samples[0]['sample_values']
+  // console.log(samples)
+  //use samples key, index 0, grab otu_labels
+  var hover_text=data.samples[0]['otu_labels']
+  // console.log(hover_text);
+    
+  });
+};
+
+// updatePlotly()
+
 
 // function init(sample_id) {
 // var table_body=d3.select("tbody");
@@ -220,3 +233,5 @@ function optionChanged(id) {
 
 
 // };
+// updatePlotly()
+buildPlot();
