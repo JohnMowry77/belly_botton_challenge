@@ -108,10 +108,8 @@ function buildPlot(sample_id){
       // row.append('td').text(key.concat(":",value));
     });
   });
-  //Call the updatePlotly function inside of buildPlot
-  d3.selectAll("body").on("change", updatePlotly);
 
-  //bonus Gauge attempt:
+  //Bonus Gauge attempt:
   var data = [
     {
       // domain: { samples: [0, 1], out_ids:[0, 1] },
@@ -123,7 +121,7 @@ function buildPlot(sample_id){
       mode: "gauge+number+delta",
       delta: {reference: 10, increasing: {color: "RebeccaPurple"}},
       gauge: {
-        axis: {range: [null, 9], tickwidth: 1, tickcolor: "orange"},
+        axis: {range: [null, 9], tickwidth: 2, tickcolor: "orange"},
         bar: {color: "red"},
         bgcolor: "white", 
         borderwidth: 3,
@@ -138,7 +136,7 @@ function buildPlot(sample_id){
         threshold: {
           line: {color: "red", width: 3},
           thickness: 0.75,
-          value: 5
+          // value: 5
         }
       }
     }
@@ -156,6 +154,8 @@ function buildPlot(sample_id){
 
 
 };
+  //Call the updatePlotly function inside of buildPlot
+  d3.selectAll("body").on("change", updatePlotly);
 
 buildPlot('940');
 
