@@ -26,7 +26,7 @@ updatePage();
 //Step 3: create buildPlot function. Make sure to update html to reflect select buildPlot
 function buildPlot(sample_id){
   d3.json('samples.json').then((data)=>{
-    //Create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
+    //Create a filter to pull the sample_id 
     //x=>x.id provides place holder to compare to sample_id
     var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
     // console.log(sample_id)
@@ -67,8 +67,8 @@ function buildPlot(sample_id){
 
     var bar_layout= {
       'title': 'Top 10 Clusters Found',
-    //   'height': 30,
-    //   'width': 30
+      't': 30,
+      'b': 30
     };
 
     //create plot using Plotly: use 'bar' as type & trace as data, plus a layout
@@ -108,8 +108,26 @@ function buildPlot(sample_id){
       // row.append('td').text(key.concat(":",value));
     });
   });
+  //Call the updatePlotly function inside of buildPlot
+  d3.selectAll("body").on("change", updatePlotly);
+
+  //bonus Gauge attempt:
+  var data = [
+    {
+      domain: { samples: [0, 1], out_ids:[0, 1] },
+      value: 270,
+      title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
+      type: "indicator",
+      mode: "gauge+number"
+    }
+  ];
+
+  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+  Plotly.newPlot('gauge', data, layout);
+
 
 };
+
 buildPlot('940');
 
 // function BuildPlot(id) {
@@ -117,7 +135,8 @@ buildPlot('940');
 // }
 
 //Step 6:
-function updatePlotly() {
+function updatePlotly(data) {
+  console.log("data")
   var tbody=d3.select("tbody");
   tbody.html("");
   d3.json('samples.json').then((data)=> {
