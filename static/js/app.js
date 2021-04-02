@@ -31,18 +31,18 @@ function buildPlot(sample_id){
     var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
     // console.log(sample_id)
     //data is an array of objects. use samples key, index 0, grab otu_labels key
-
-    //Use result_filter for bar chart:
-    // var otu_ids_bar=data.samples['otu_ids']
     var metadata=data['metadata'].filter(x=>x.id==sample_id)[0]; 
     // console.log(metadata) //metadata an array of objects
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
+    //Use result_filter for bar chart:
     // data.samples[0]
+    // var otu_ids_bar=data.samples['otu_ids']
     var otu_ids=result_filter['otu_ids']
     // console.log(otu_ids);
 
     //Use result_filter,b grab samples_values key
+
     var samples = result_filter['sample_values']
     // console.log(samples)
     //Use result_filter, grab otu_labels
@@ -94,11 +94,12 @@ function buildPlot(sample_id){
 
     Plotly.newPlot('bubble', [trace_bubble], bubble_layout);
 
+    //Step 4 & 5: 
     //Create Data Table
     //Get a refernce to the table body
     var tbody=d3.select("tbody");
     tbody.html("")
-    console.log(metadata);
+    // console.log(metadata);
     // var cur_metadata=metadata.filter(x=>x.id==sample_id);
     // console.log(cur_metadata);
     Object.entries(metadata).forEach(([key,value])=>{
@@ -107,39 +108,56 @@ function buildPlot(sample_id){
       // row.append('td').text(key.concat(":",value));
     });
   });
+
 };
+buildPlot('940');
 
 // function BuildPlot(id) {
 //   console.log(id);
 // }
 
-// function updatePlotly() {
-//   var tbody=d3.select("tbody");
-//   tbody.text("");
-//   d3.json('samples.json').then((data)=> {
-//   var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-//   // console.log(result_filter);
-//   var metadata=data['metadata']; 
-//   // console.log(metadata);
-//   //use data.samples for bubble chart
-//   var otu_ids=data.samples[0]['otu_ids']
-//   // console.log(otu_ids);
-//   //use samples key, index 0, grab samples_values key
-//   var samples = data.samples[0]['sample_values']
-//   // console.log(samples)
-//   //use samples key, index 0, grab otu_labels
-//   var hover_text=data.samples[0]['otu_labels']
-//   // console.log(hover_text);
+//Step 6:
+function updatePlotly() {
+  var tbody=d3.select("tbody");
+  tbody.html("");
+  d3.json('samples.json').then((data)=> {
 
-//   // convert otu_ids to string
-//   otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
+  var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+  console.log(result_filter);
+  var metadata=data['metadata'].filter(x=>x.id==sample_id)[0]; 
+  console.log(metadata);
+  
+  var otu_ids=result_filter['otu_ids']
+  // console.log(otu_ids);
+  //use samples key, index 0, grab samples_values key
+  var samples = result_filter['sample_values']
+  // console.log(samples)
+  //use samples key, index 0, grab otu_labels
+  var hover_text=result_filter['otu_labels']
+  // console.log(hover_text);
 
-//     Plotly.restyle('bar', 'y',[otu_label].slice(0,10));
-//     Plotly.restyle('bar', 'x',[samples].slice(0,10));
-//   });
-// };
+  // convert otu_ids to string
+  otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
 
-buildPlot('940');
+    Plotly.restyle('bar', 'y',[otu_label].slice(0,10));
+    Plotly.restyle('bar', 'x',[samples].slice(0,10));
+
+    Plotly.restyle('bubble', 'y',[samples]);
+    Plotly.restyly('bubble', 'x',[otu_ids]);
+
+
+    var tbody=d3.select("tbody");
+    tbody.html("")
+    Object.entries(metadata).forEach(([key,value])=>{
+      var row=tbody.append("tr");
+      row.text(`${key}: ${value}`);
+      // row.append('td').text(key.concat(":",value));
+    });
+
+  });
+};
+
+
 
 // updatePlotly()
 
