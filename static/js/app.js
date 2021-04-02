@@ -1,11 +1,13 @@
-// // use d3 to read in samples.json
+//Step 1: 
+// // Use d3 to read in samples.json
 //  d3.json("samples.json").then((samples)=> {
 //   console.log(samples)
 // });
 
+//Step 2: 
 // Use D3 to create an event handler
 // d3.selectAll("body").on("change", updatePage);
-
+//We utilized the html select tag for event handler.
 //this will display the id and the value of the drop down menu. 
 function updatePage() {
   // Use d3 to read in samples.json
@@ -21,34 +23,33 @@ function updatePage() {
 }
 
 updatePage();
-
+//Step 3: create buildPlot function. Make sure to update html to reflect select buildPlot
 function buildPlot(sample_id){
   d3.json('samples.json').then((data)=>{
-    //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
+    //Create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
     //x=>x.id provides place holder to compare to sample_id
     var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
     // console.log(sample_id)
     //data is an array of objects. use samples key, index 0, grab otu_labels key
 
-    //use result_filter for bar chart:
+    //Use result_filter for bar chart:
     // var otu_ids_bar=data.samples['otu_ids']
     var metadata=data['metadata'].filter(x=>x.id==sample_id)[0]; 
     // console.log(metadata) //metadata an array of objects
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
-
-    //use data.samples for bubble chart
     // data.samples[0]
     var otu_ids=result_filter['otu_ids']
     // console.log(otu_ids);
-    //use samples key, index 0, grab samples_values key
+
+    //Use result_filter,b grab samples_values key
     var samples = result_filter['sample_values']
     // console.log(samples)
-    //use samples key, index 0, grab otu_labels
+    //Use result_filter, grab otu_labels
     var hover_text=result_filter['otu_labels']
     // console.log(hover_text);
     
-    // convert otu_ids to string
+    // Convert otu_ids to string
     otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
 
     //create trace & use .slice & .reverse to get the top 10 results
@@ -108,8 +109,6 @@ function buildPlot(sample_id){
   });
 };
 
-// buildPlot();
-
 // function BuildPlot(id) {
 //   console.log(id);
 // }
@@ -140,11 +139,7 @@ function buildPlot(sample_id){
 //   });
 // };
 
-
 buildPlot('940');
-
-
-
 
 // updatePlotly()
 
@@ -175,27 +170,4 @@ buildPlot('940');
 //      dropdownMenu.append('option').text(id).property('value', id); 
 //    });
 //   });
-
 // }
-
-
-// var data= Object.values(samples['otu_ids']);
-// console.log(data);
-
-// function init() {
-//   var trace= {
-//     'type' = 'bar',
-//     'values'= data
-//   };
-
-//   Plotly.newPlot('bar', [trace]);
-
-// d3.select('#selDataset').on('change', updatePlot)
-
-// function updatePlot() {
-
-// }
-// init();
-
-// };
-// updatePlotly()
