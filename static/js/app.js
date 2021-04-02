@@ -115,14 +115,37 @@ function buildPlot(sample_id){
   var data = [
     {
       domain: { samples: [0, 1], out_ids:[0, 1] },
-      value: 270,
+      // value: 18,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
       type: "indicator",
-      mode: "gauge+number"
+      mode: "gauge+number+delta",
+      delta: {reference: 10, increasing: {color: "RebeccaPurple"}},
+      gauge: {
+        axis: {range: [null,9]},
+        steps: [
+          {range: [0,2], color: "lightgray"},
+          {range: [2,4], color: "blue"},
+          {range: [4,6], color: "orange"},
+          {range: [6,8], color: "yellow"},
+          {range: [8,9], color: "red"}
+        ],
+        threshold: {
+          line: {color: "red", width: 3},
+          thickness: 0.75,
+          value: 2
+        }
+      }
     }
   ];
 
-  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+  var layout = { 
+    width: 600, 
+    height: 500, 
+    margin: { t: 25, b: 25, 1: 25, b: 25 },
+    paper_bgcolor: "white",
+    font: {color: "darkblue", family: "Arial"}
+  };
+
   Plotly.newPlot('gauge', data, layout);
 
 
