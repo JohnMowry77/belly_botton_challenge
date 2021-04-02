@@ -114,25 +114,31 @@ function buildPlot(sample_id){
   //bonus Gauge attempt:
   var data = [
     {
-      domain: { samples: [0, 1], out_ids:[0, 1] },
-      // value: 18,
+      // domain: { samples: [0, 1], out_ids:[0, 1] },
+      domain: { samples: [0,1], out_ids: [0,1]},
+      // labels: ["0-1", "1-2"],
+      value: 5,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
       type: "indicator",
       mode: "gauge+number+delta",
       delta: {reference: 10, increasing: {color: "RebeccaPurple"}},
       gauge: {
-        axis: {range: [null,9]},
+        axis: {range: [null, 9], tickwidth: 1, tickcolor: "orange"},
+        bar: {color: "red"},
+        bgcolor: "white", 
+        borderwidth: 3,
+        bordercolor: "gray",
         steps: [
-          {range: [0,2], color: "lightgray"},
-          {range: [2,4], color: "blue"},
-          {range: [4,6], color: "orange"},
-          {range: [6,8], color: "yellow"},
-          {range: [8,9], color: "red"}
+          {range: [0,2], color: "#ffc7b6"},
+          {range: [2,4], color: "#ffb39c"},
+          {range: [4,6], color: "#ffa083"},
+          {range: [6,8], color: "#ff8c69"},
+          {range: [8,9], color: "#ff784f"}
         ],
         threshold: {
           line: {color: "red", width: 3},
           thickness: 0.75,
-          value: 2
+          value: 5
         }
       }
     }
@@ -143,7 +149,7 @@ function buildPlot(sample_id){
     height: 500, 
     margin: { t: 25, b: 25, 1: 25, b: 25 },
     paper_bgcolor: "white",
-    font: {color: "darkblue", family: "Arial"}
+    font: {color: "black", family: "Arial"}
   };
 
   Plotly.newPlot('gauge', data, layout);
@@ -185,7 +191,10 @@ function updatePlotly(data) {
     Plotly.restyle('bar', 'x',[samples].slice(0,10));
 
     Plotly.restyle('bubble', 'y',[samples]);
-    Plotly.restyly('bubble', 'x',[otu_ids]);
+    Plotly.restyle('bubble', 'x',[otu_ids]);
+
+    Plotly.restyle('gauge', 'y', [samples]);
+    Plotly.restyle('gauge', 'x', [otu_ids]);
 
 
     var tbody=d3.select("tbody");
