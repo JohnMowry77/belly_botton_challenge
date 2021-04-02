@@ -7,38 +7,23 @@
 // d3.selectAll("body").on("change", updatePage);
 
 //this will display the id and the value of the drop down menu. 
-// function updatePage() {
-//   // Use d3 to read in samples.json
-//   d3.json('samples.json').then((data)=> {
-//   // Use d3 to select the dropdown menu
-//   var dropdownMenu = d3.selectAll("#selDataset"); //# means id // . means class
-//   //use forEach grab the names key 
-//   data['names'].forEach((id_num)=> {
-//   //append (the name text to value name in the dropdown menu)
-//   dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
-//   });
-// });
-// }
-
-// updatePage();
-
-  // var id_num=dropdownMenu.property('value'); 
-  // console.log(id_num); //gives you the first id value (940)
-  //grab the remaining keys inside of dict
-  //use filter to grab the sample.id equal to the id.num and convert to string
-  // var cur_sample=samples.filter(sample=>sample.id==id_num.toString()) 
-  // console.log(cur_sample);
-
-function buildPlot(sample_id){
-  d3.json('samples.json').then((data)=>{
-  //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
-  //this will display the id and the value of the drop down menu. 
+function updatePage() {
+  // Use d3 to read in samples.json
+  d3.json('samples.json').then((data)=> {
+  // Use d3 to select the dropdown menu
   var dropdownMenu = d3.selectAll("#selDataset"); //# means id // . means class
   //use forEach grab the names key 
   data['names'].forEach((id_num)=> {
   //append (the name text to value name in the dropdown menu)
-  dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
+  dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
   });
+});
+}
+updatePage();
+
+function buildPlot(sample_id){
+  d3.json('samples.json').then((data)=>{
+  //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
   //x=>x.id provides place holder to compare to sample_id
   var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
   // console.log(sample_id)
@@ -85,7 +70,6 @@ var bar_layout= {
 
 //create plot using Plotly: use 'bar' as type & trace as data, plus a layout
 Plotly.newPlot('bar', [trace_bar], bar_layout);
-// Plotly.newPlot('bar', [trace_bar], bar_layout);
 
 // var sample_values= 
 var trace_bubble= {
@@ -107,17 +91,6 @@ var bubble_layout= {
 
 Plotly.newPlot('bubble', [trace_bubble], bubble_layout);
 
-// var table_body=d3.select("tbody");
-// // d3.json('samples.json').then((data)=>{
-// //Populate the demographic table
-// // var metadata=data.samples.filter(x=>x.id==sample_id);
-// Object.entries(data.metadata[0].forEach(([key,value])=>{
-//   row=table_body.append('tr');
-//   row.append('td').text(key.concat(":",value));
-// }));
-// });
-// };
-
 //Create Data Table
 //Get a refernce to the table body
 var tbody=d3.select("tbody");
@@ -133,7 +106,7 @@ Object.entries(metadata[0]).forEach(([key,value])=>{
 
 // buildPlot();
 
-function optionChanged(id) {
+function BuildPlot(id) {
   console.log(id);
 }
 
@@ -141,10 +114,10 @@ function updatePlotly() {
   var tbody=d3.select("tbody");
   tbody.text("");
   d3.json('samples.json').then((data)=> {
-    var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-    // console.log(result_filter);
-    var metadata=data['metadata']; 
-    // console.log(metadata);
+  var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
+  // console.log(result_filter);
+  var metadata=data['metadata']; 
+  // console.log(metadata);
   //use data.samples for bubble chart
   var otu_ids=data.samples[0]['otu_ids']
   // console.log(otu_ids);
@@ -165,8 +138,6 @@ function updatePlotly() {
 
 // updatePlotly()
 
-buildPlot();
-
 // function init(sample_id) {
 // var table_body=d3.select("tbody");
 // d3.json('samples.json').then((data)=>{
@@ -181,33 +152,6 @@ buildPlot();
 // });
 // };
 // init();
-
-///////
-// function init() {
-//  d3.json("samples.json").then((data)=> {
-//  	//Grab values from json object to build the plot
-//   var dropdown=d3.select('#selDataset');
-//   var data= data;
-//   // console.log(dropdown);
-//   // console.log(data);
-//   var names= data['names'];
-//   names.ForEach()
-
-// });
-
-//  	var samples =
-//  	var otu_top_ten=(samples.otu_id.slice(0,10)).reverse();
-
-// 	console.log(samples);
-// 	console.log(otu_top_ten);
-
-// });
-// // var data = [trace1];
-// d3.json("samples.json").then(function(data) {
-//   var otu_ids= data.samples.otu_ids;
-//   console.log(otu_ids)
-// });
-// }
 
 ///Can't run forEach below:
 // function updatePage() {
@@ -243,7 +187,6 @@ buildPlot();
 // }
 // init();
 
-
-
 // };
 // updatePlotly()
+buildPlot();
