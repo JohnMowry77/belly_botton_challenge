@@ -7,20 +7,20 @@
 // d3.selectAll("body").on("change", updatePage);
 
 //this will display the id and the value of the drop down menu. 
-function updatePage() {
-  // Use d3 to read in samples.json
-  d3.json('samples.json').then((data)=> {
-  // Use d3 to select the dropdown menu
-  var dropdownMenu = d3.selectAll("#selDataset"); //# means id // . means class
-  //use forEach grab the names key 
-  data['names'].forEach((id_num)=> {
-  //append (the name text to value name in the dropdown menu)
-  dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
-  });
-});
-}
+// function updatePage() {
+//   // Use d3 to read in samples.json
+//   d3.json('samples.json').then((data)=> {
+//   // Use d3 to select the dropdown menu
+//   var dropdownMenu = d3.selectAll("#selDataset"); //# means id // . means class
+//   //use forEach grab the names key 
+//   data['names'].forEach((id_num)=> {
+//   //append (the name text to value name in the dropdown menu)
+//   dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
+//   });
+// });
+// }
 
-updatePage();
+// updatePage();
 
   // var id_num=dropdownMenu.property('value'); 
   // console.log(id_num); //gives you the first id value (940)
@@ -32,6 +32,13 @@ updatePage();
 function buildPlot(sample_id){
   d3.json('samples.json').then((data)=>{
   //create a filter to pull the sample_id ????????FOLLOW UP NEEDED CHART NOT CHANGING
+  //this will display the id and the value of the drop down menu. 
+  var dropdownMenu = d3.selectAll("#selDataset"); //# means id // . means class
+  //use forEach grab the names key 
+  data['names'].forEach((id_num)=> {
+  //append (the name text to value name in the dropdown menu)
+  dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
+  });
   //x=>x.id provides place holder to compare to sample_id
   var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
   // console.log(sample_id)
@@ -158,6 +165,7 @@ function updatePlotly() {
 
 // updatePlotly()
 
+buildPlot();
 
 // function init(sample_id) {
 // var table_body=d3.select("tbody");
@@ -239,4 +247,3 @@ function updatePlotly() {
 
 // };
 // updatePlotly()
-buildPlot();
