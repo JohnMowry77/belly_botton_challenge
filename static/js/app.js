@@ -41,13 +41,14 @@ function buildPlot(sample_id){
     //data is an array of objects. use samples key, index 0, grab otu_labels key
     var metadata=data['metadata'].filter(x=>x.id==sample_id)[0];
     // console.log(metadata) //metadata an array of objects
-    var wash_freq  =metadata['wfreq']
-    console.log(wash_freq)
+    
+    // var wash_freq  =metadata['wfreq']
+    // console.log(wash_freq) //gives you the first wfreq 2
 
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
     var wash_freq=data['metadata'].map(d=>d.wfreq)
-    console.log(wash_freq)
+    console.log(wash_freq) //shows all the wash_freq
 
     //Use result_filter for bar chart:
     // data.samples[0]
@@ -128,9 +129,9 @@ function buildPlot(sample_id){
   //Bonus Gauge attempt:
   var data = [
     {
-      // domain: { x: [0,1], y: [0,1]},
+      domain: { x: [0,1], y: [0,1]},
       labels: ["0-1", "1-2","2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9"],
-      value: wash_freq,
+      value: parseFloat(wash_freq),
       // value: (wash_freq),
       // value: 5,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
@@ -191,10 +192,10 @@ function updatePage() {
       //append (the name text to value name in the dropdown menu)
         dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
     });
-    var wash_freq= d3.select("#selDataset");
-      data['metadata'].forEach((wfreq)=> {
-        wash_freq.append('option').text(wfreq).property('value', wfreq);
-      });
+    // var wash_freq= d3.select("#selDataset");
+    //   data['metadata'].forEach((wfreq)=> {
+    //     wash_freq.append('option').text(wfreq).property('value', wfreq);
+    //   });
   });
   // //Call the buildPlot function inside of updatePage
   d3.selectAll("body").on("change", buildPlot);
