@@ -1,40 +1,54 @@
 //Step 1: 
-// // Use d3 to read in samples.json
-//  d3.json("samples.json").then((samples)=> {
-//   console.log(samples)
-// });
+// Use d3 to read in samples.json
+ d3.json("../../samples.json").then((samples)=> {
+  console.log(samples)
+});
 
 //Step 2: 
 // Use D3 to create an event handler
 // d3.selectAll("body").on("change", updatePage);
 //We utilized the html select tag for event handler.
-//this will display the id and the value of the drop down menu. 
-function updatePage() {
-  // Use d3 to read in samples.json
-  d3.json('samples.json').then((data)=> {
-  // Use d3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
-      //use forEach grab the names key 
-      data['names'].forEach((id_num)=> {
-      //append (the name text to value name in the dropdown menu)
-        dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
-    });
-  });
-}
+// //this will display the id and the value of the drop down menu. 
+// function updatePage() {
+//   // Use d3 to read in samples.json
+//   d3.json("../../samples.json").then((data)=> {
+//   // Use d3 to select the dropdown menu
+//     var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
+//       //use forEach grab the names key 
+//       data['names'].forEach((id_num)=> {
+//       //append (the name text to value name in the dropdown menu)
+//         dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
+//     });
+//     var wash_freq= d3.select("#selDataset");
+//       data['metadata'].forEach((wfreq)=> {
+//         wash_freq.append('option').text(wfreq).property('value', wfreq);
+//       });
+//   });
+//   // //Call the buildPlot function inside of updatePage
+//   d3.selectAll("body").on("change", buildPlot);
+// }
 
 updatePage();
 //Step 3: create buildPlot function. Make sure to update html to reflect select buildPlot
 function buildPlot(sample_id){
-  d3.json('samples.json').then((data)=>{
+  d3.json("../../samples.json").then((data)=>{
+    // console.log(data)
+
     //Create a filter to pull the sample_id 
     //x=>x.id provides place holder to compare to sample_id
     var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
     // console.log(sample_id)
     //data is an array of objects. use samples key, index 0, grab otu_labels key
-    var metadata=data['metadata'].filter(x=>x.id==sample_id)[0]; 
+    var metadata=data['metadata'].filter(x=>x.id==sample_id)[0];
     // console.log(metadata) //metadata an array of objects
+    var wash_freq  =metadata['wfreq']
+    console.log(wash_freq)
+
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
+    var wash_freq=data['metadata'].map(d=>d.wfreq)
+    console.log(wash_freq)
+
     //Use result_filter for bar chart:
     // data.samples[0]
     // var otu_ids_bar=data.samples['otu_ids']
@@ -51,7 +65,7 @@ function buildPlot(sample_id){
     
     // Convert otu_ids to string
     otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
-
+    // console.log(otu_label)
     //create trace & use .slice & .reverse to get the top 10 results
     var trace_bar= {
       'type': 'bar',
@@ -68,7 +82,9 @@ function buildPlot(sample_id){
     var bar_layout= {
       'title': 'Top 10 Clusters Found',
       't': 30,
-      'b': 30
+      'b': 30,
+      xaxis: {title:
+        'Sample Values'}
     };
 
     //create plot using Plotly: use 'bar' as type & trace as data, plus a layout
@@ -112,17 +128,18 @@ function buildPlot(sample_id){
   //Bonus Gauge attempt:
   var data = [
     {
-      // domain: { samples: [0, 1], out_ids:[0, 1] },
-      domain: { samples: [0,1], out_ids: [0,1]},
-      // labels: ["0-1", "1-2"],
-      value: 5,
+      // domain: { x: [0,1], y: [0,1]},
+      labels: ["0-1", "1-2","2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9"],
+      value: wash_freq,
+      // value: (wash_freq),
+      // value: 5,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
       type: "indicator",
       mode: "gauge+number+delta",
-      delta: {reference: 10, increasing: {color: "RebeccaPurple"}},
+      // delta: {reference: null, increasing: {color: "RebeccaPurple"}},
       gauge: {
         axis: {range: [null, 9], tickwidth: 2, tickcolor: "orange"},
-        bar: {color: "red"},
+        bar: {color: "RebeccaPurple"},
         bgcolor: "white", 
         borderwidth: 3,
         bordercolor: "gray",
@@ -152,10 +169,9 @@ function buildPlot(sample_id){
 
   Plotly.newPlot('gauge', data, layout);
 
-
 };
   //Call the updatePlotly function inside of buildPlot
-  d3.selectAll("body").on("change", updatePlotly);
+  // d3.selectAll("body").on("change", updatePlotly);
 
 buildPlot('940');
 
@@ -163,69 +179,27 @@ buildPlot('940');
 //   console.log(id);
 // }
 
-//Step 6:
-function updatePlotly(data) {
-  console.log("data")
-  var tbody=d3.select("tbody");
-  tbody.html("");
-  d3.json('samples.json').then((data)=> {
-
-  var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-  console.log(result_filter);
-  var metadata=data['metadata'].filter(x=>x.id==sample_id)[0]; 
-  console.log(metadata);
-  
-  var otu_ids=result_filter['otu_ids']
-  // console.log(otu_ids);
-  //use samples key, index 0, grab samples_values key
-  var samples = result_filter['sample_values']
-  // console.log(samples)
-  //use samples key, index 0, grab otu_labels
-  var hover_text=result_filter['otu_labels']
-  // console.log(hover_text);
-
-  // convert otu_ids to string
-  otu_label= otu_ids.map(x=> `otu ${x}`).slice(0,10).reverse()
-
-    Plotly.restyle('bar', 'y',[otu_label].slice(0,10));
-    Plotly.restyle('bar', 'x',[samples].slice(0,10));
-
-    Plotly.restyle('bubble', 'y',[samples]);
-    Plotly.restyle('bubble', 'x',[otu_ids]);
-
-    Plotly.restyle('gauge', 'y', [samples]);
-    Plotly.restyle('gauge', 'x', [otu_ids]);
-
-
-    var tbody=d3.select("tbody");
-    tbody.html("")
-    Object.entries(metadata).forEach(([key,value])=>{
-      var row=tbody.append("tr");
-      row.text(`${key}: ${value}`);
-      // row.append('td').text(key.concat(":",value));
+//Step 6: 
+//We utilized the html select tag for event handler.
+function updatePage() {
+  // Use d3 to read in samples.json
+  d3.json("../../samples.json").then((data)=> {
+  // Use d3 to select the dropdown menu
+    var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
+      //use forEach grab the names key 
+      data['names'].forEach((id_num)=> {
+      //append (the name text to value name in the dropdown menu)
+        dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
     });
-
+    var wash_freq= d3.select("#selDataset");
+      data['metadata'].forEach((wfreq)=> {
+        wash_freq.append('option').text(wfreq).property('value', wfreq);
+      });
   });
+  // //Call the buildPlot function inside of updatePage
+  d3.selectAll("body").on("change", buildPlot);
 };
-
-
-
-// updatePlotly()
-
-// function init(sample_id) {
-// var table_body=d3.select("tbody");
-// d3.json('samples.json').then((data)=>{
-// //Populate the demographic table
-// var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
-// console.log(demo);
-// // var metadata=data.samples.filter(x=>x.id==sample_id);
-// Object.entries(result_filter[0].forEach(([key,value])=>{
-//   row=table_body.append('tr');
-//   row.append('td').text(key.concat(":",value));
-// }));
-// });
-// };
-// init();
+// updatePage();
 
 ///Can't run forEach below:
 // function updatePage() {
