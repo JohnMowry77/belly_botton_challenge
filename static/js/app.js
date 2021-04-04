@@ -48,12 +48,12 @@ function buildPlot(sample_id){
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
     var wash_freq=data['metadata'].map(d=>d.wfreq)
-    console.log(wash_freq) //shows all the wash_freq
+    // console.log(wash_freq) //shows all the wash_freq
 
     //Use result_filter for bar chart:
     // data.samples[0]
     // var otu_ids_bar=data.samples['otu_ids']
-    var otu_ids=result_filter['otu_ids']
+    var otu_ids=result_filter['otu_ids'] //ON UPDATE THIS BECOMES UNDEFINED???
     // console.log(otu_ids);
 
     //Use result_filter,b grab samples_values key
@@ -131,7 +131,7 @@ function buildPlot(sample_id){
     {
       domain: { x: [0,1], y: [0,1]},
       labels: ["0-1", "1-2","2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9"],
-      value: parseFloat(wash_freq),
+      value: parseFloat([wash_freq]), //THIS IS DEFINED BUT IT SAYS IT ISN'T? 
       // value: (wash_freq),
       // value: 5,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
