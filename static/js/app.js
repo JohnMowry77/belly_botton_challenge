@@ -4,7 +4,7 @@
   console.log(samples)
 });
 
-Step 2: 
+// Step 2: 
 // Use D3 to create an event handler
 d3.selectAll("body").on("change", updatePage);
 // utilized the html select tag for event handler.
