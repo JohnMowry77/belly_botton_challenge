@@ -4,29 +4,29 @@
   console.log(samples)
 });
 
-//Step 2: 
+Step 2: 
 // Use D3 to create an event handler
-// d3.selectAll("body").on("change", updatePage);
-//We utilized the html select tag for event handler.
-// //this will display the id and the value of the drop down menu. 
-// function updatePage() {
-//   // Use d3 to read in samples.json
-//   d3.json("../../samples.json").then((data)=> {
-//   // Use d3 to select the dropdown menu
-//     var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
-//       //use forEach grab the names key 
-//       data['names'].forEach((id_num)=> {
-//       //append (the name text to value name in the dropdown menu)
-//         dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
-//     });
-//     var wash_freq= d3.select("#selDataset");
-//       data['metadata'].forEach((wfreq)=> {
-//         wash_freq.append('option').text(wfreq).property('value', wfreq);
-//       });
-//   });
-//   // //Call the buildPlot function inside of updatePage
-//   d3.selectAll("body").on("change", buildPlot);
-// }
+d3.selectAll("body").on("change", updatePage);
+// utilized the html select tag for event handler.
+//this will display the id and the value of the drop down menu. 
+function updatePage() {
+  // Use d3 to read in samples.json
+  d3.json("../../samples.json").then((data)=> {
+  // Use d3 to select the dropdown menu
+    var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
+      //use forEach grab the names key 
+      data['names'].forEach((id_num)=> {
+      //append (the name text to value name in the dropdown menu)
+        dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
+    });
+    var wash_freq= d3.select("#selDataset");
+      data['metadata'].forEach((wfreq)=> {
+        wash_freq.append('option').text(wfreq).property('value', wfreq);
+      });
+  });
+  // //Call the buildPlot function inside of updatePage
+  d3.selectAll("body").on("change", buildPlot);
+}
 
 updatePage();
 //Step 3: create buildPlot function. Make sure to update html to reflect select buildPlot
@@ -181,25 +181,25 @@ buildPlot('940');
 // }
 
 //Step 6: 
-//We utilized the html select tag for event handler.
-function updatePage() {
-  // Use d3 to read in samples.json
-  d3.json("../../samples.json").then((data)=> {
-  // Use d3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
-      //use forEach grab the names key 
-      data['names'].forEach((id_num)=> {
-      //append (the name text to value name in the dropdown menu)
-        dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
-    });
-    // var wash_freq= d3.select("#selDataset");
-    //   data['metadata'].forEach((wfreq)=> {
-    //     wash_freq.append('option').text(wfreq).property('value', wfreq);
-    //   });
-  });
-  // //Call the buildPlot function inside of updatePage
-  d3.selectAll("body").on("change", buildPlot);
-};
+// //utilized the html select tag for event handler.
+// function updatePage() {
+//   // Use d3 to read in samples.json
+//   d3.json("../../samples.json").then((data)=> {
+//   // Use d3 to select the dropdown menu
+//     var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
+//       //use forEach grab the names key 
+//       data['names'].forEach((id_num)=> {
+//       //append (the name text to value name in the dropdown menu)
+//         dropdownMenu.append('option').text(id_num).property('value', id_num); //.text method grab (name text)
+//     });
+//     // var wash_freq= d3.select("#selDataset");
+//     //   data['metadata'].forEach((wfreq)=> {
+//     //     wash_freq.append('option').text(wfreq).property('value', wfreq);
+//     //   });
+//   });
+//   // //Call the buildPlot function inside of updatePage
+//   d3.selectAll("body").on("change", buildPlot);
+// };
 // updatePage();
 
 ///Can't run forEach below:
