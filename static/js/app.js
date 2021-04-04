@@ -1,6 +1,6 @@
 //Step 1: 
 // Use d3 to read in samples.json
- d3.json("../../samples.json").then((samples)=> {
+ d3.json("/static/js/samples.json").then((samples)=> {
   console.log(samples)
 });
 
@@ -11,7 +11,7 @@ d3.selectAll("body").on("change", updatePage);
 //this will display the id and the value of the drop down menu. 
 function updatePage() {
   // Use d3 to read in samples.json
-  d3.json("../../samples.json").then((data)=> {
+  d3.json("/static/js/samples.json").then((data)=> {
   // Use d3 to select the dropdown menu
     var dropdownMenu = d3.select("#selDataset"); //# means id // . means class
       //use forEach grab the names key 
@@ -31,7 +31,7 @@ function updatePage() {
 updatePage();
 //Step 3: create buildPlot function. Make sure to update html to reflect select buildPlot
 function buildPlot(sample_id){
-  d3.json("../../samples.json").then((data)=>{
+  d3.json("/static/js/samples.json").then((data)=>{
     // console.log(data)
 
     //Create a filter to pull the sample_id 
