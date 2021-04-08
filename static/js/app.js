@@ -20,13 +20,13 @@ function updatePage() {
       //append (the name text to value name in the dropdown menu)
         dropdownMenu.append('option').text(id_num).property('value', id_num);	//.text method grab (name text)
     });
-    var wash_freq= d3.select("#selDataset");
-      data['metadata'].forEach((wfreq)=> {
-        wash_freq.append('option').text(wfreq).property('value', wfreq);
-      });
+    // var wash_freq= d3.select("#selDataset");
+    //   data['metadata'].forEach((wfreq)=> {
+    //     wash_freq.append('option').text(wfreq).property('value', wfreq);
+    //   });
   });
   // //Call the buildPlot function inside of updatePage
-  d3.selectAll("body").on("change", buildPlot);
+  // d3.selectAll("body").on("change", buildPlot);
 }
 
 updatePage();
@@ -40,15 +40,17 @@ function buildPlot(sample_id){
     var result_filter= data.samples.filter(x=>x.id==sample_id)[0]
     // console.log(sample_id)
     //data is an array of objects. use samples key, index 0, grab otu_labels key
-    var metadata=data['metadata'].filter(x=>x.id==sample_id)[0];
-    // console.log(metadata) //metadata an array of objects
-    
-    // var wash_freq  =metadata['wfreq']
-    // console.log(wash_freq) //gives you the first wfreq 2
+    // var metadata=data['metadata'].filter(y=>y.id==sample_id)[0];
+    var metadata=data.metadata.filter(y=>y.id==sample_id)[0];
+    console.log(metadata) //metadata an array of objects
+
+    // const wash_freq  =metadata['wfreq']
+    const wash_freq  =metadata.wfreq
+    console.log(wash_freq) //gives you the first wfreq 2
 
     // var samples= data['samples'];
     // console.log(samples); //samples an array of objects
-    var wash_freq=data['metadata'].map(d=>d.wfreq)
+    // var wash_freq=data['metadata'].map(d=>d.wfreq)
     // console.log(wash_freq) //shows all the wash_freq
 
     //Use result_filter for bar chart:
@@ -125,14 +127,14 @@ function buildPlot(sample_id){
       row.text(`${key}: ${value}`);
       // row.append('td').text(key.concat(":",value));
     });
-  });
+  
 
   //Bonus Gauge attempt:
   var data = [
     {
       domain: { x: [0,1], y: [0,1]},
       labels: ["0-1", "1-2","2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9"],
-      value: parseFloat([wash_freq]), //THIS IS DEFINED BUT IT SAYS IT ISN'T? 
+      value: parseFloat(metadata.wfreq), //THIS IS DEFINED BUT IT SAYS IT ISN'T? 
       // value: (wash_freq),
       // value: 5,
       title: { text: "Belly Button Washing Frequency Scrubs per Week" , font: {size: 17}},
@@ -171,6 +173,7 @@ function buildPlot(sample_id){
 
   Plotly.newPlot('gauge', data, layout);
 
+  });
 };
   //Call the updatePlotly function inside of buildPlot
   // d3.selectAll("body").on("change", updatePlotly);
